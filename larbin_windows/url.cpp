@@ -23,6 +23,79 @@ static uint siteHashCode(char *host){
 	return h%namedSiteListSize;
 }
 
+/*将十六进制的字符转换为整形数字
+* 若字符不是十六进制数返回 -1*/
+static int int_of_hexa(char c){
+	if(c >= '0' && c <= '9')
+		return (c - '0');
+	else if(c >= 'A' && c <= 'Z')
+		return(c - 'A' + 10);
+	else if(c >= 'a' && c <= 'z')
+		return(c - 'a' + 10);
+	else
+		return -1;
+}
+/*url 规范化函数，仅针对修饰符和RFC1738编码做了处理
+如果处理正确返回 true, 错误返回false*/
+bool fileNormalize (char *file){
+	int i = 0;
+	while(file[i] != 0 && file[i] != '#')   //删除Fragment(#) 
+	{
+		//删除多余的 //  /./   /../   /.       /..点修饰符
+		if(file[i] == '/'){
+			int j = i+1, k = j;
+			while(file[j] == '.' || file[j] == '/') j++;
+			while(file[j] !=0)
+				{
+					file[k] = file[j];
+					j++, k++;
+				}
+				file[k] = 0;
+				i++;
+		} else if(file[i] == '%'){ //处理RFC1738编码"%20"的情况，转换为实际字符 
+			int v1 = int_of_hexa(file[i+1]);
+			int v2 = int_of_hexa(file[i+1]);
+			if(v1 < 0 || v2 < 0) return false;
+			char c = v1 * 16 + v2;
+			if(isgraph(c)){
+				file[i] = c;
+				int j = i+3;
+				while (file[j] != 0)
+				{
+					file[j-2] = file[j];
+					j++;
+				}
+				file[j-2] = 0;
+			} else if (c == ' ' || c=='/') //如果c是空格或者/则不对其进行转码
+				i+=3;
+			else  //错误url
+				return false;
+		} else {
+			i ++;
+		}
+		
+				
+
+		//	if(file[i+1] == '.' && file[i+2] == '/')
+		//	{
+		//		/*删除多余的/./*/
+		//		int j = i+3;
+		//		while(file[j] != 0)
+		//		{
+		//			file[j-2] == file[j];
+		//			j++;
+		//		}
+		//		file[j-1] = 0;
+		//	}
+		//	
+		//}
+	}
+	   file[i] = 0;
+		return true;
+
+}
+
+
 
 /**************************************/
 /* definition of methods of class url */
@@ -61,7 +134,7 @@ url::url(char *u, int8_t depth, url *base)
 	}
 }
 
-//构造函数，用于输入的url
+//构造函数，用于由的url字符串构造url对象
 url::url(char *line, int8_t depth){
 	newUrl();
 	this->depth = depth;
@@ -139,7 +212,7 @@ url::url(char * line){
 #endif // COOKIES
 }
 //由基本url构建
-url::url(char *host, unit port, char *file){
+url::url(char *host, uint port, char *file){
 	newUrl();
 	initCookie();
 	this->host = host;
@@ -152,7 +225,7 @@ url::~url() {
 	delUrl();
 	delete [] file;
 	delete [] host;
-	#ifdef COOKIES
+#ifdef COOKIES
 	delete [] cookie;
 #endif // COOKIES
 }
@@ -161,8 +234,9 @@ url::~url() {
 bool url::isValid(){
 	if(host == NULL) return false;
 	int lh = strlen(host);
-	return file!=NULL && lh < maxSiteSize
-		&& lh + strlen(file) + 18 < maxSiteSize;
+	printf("%i  %i",lh + strlen(file) + 18, maxSiteSize );
+	return (file!=NULL && lh < maxSiteSize
+		&& lh + strlen(file) + 18 < maxUrlSize);
 }
 
 bool url::initOK(url *from){
@@ -238,7 +312,7 @@ char *url::serialize(){
 }
 
 char *url::getUrl(){
-	static char statstr[maxUrlSize+40];  //通过设置静态成员的方式返回，可以借鉴
+	static char statstr[maxUrlSize+40];  //通过设置静态成员的方式返回，可以借鉴 此变量对多个对象来说只有一个吗？
 	sprintf(statstr, "http://%s:%u%s", host, port, file);
 	return statstr;
 }
@@ -300,7 +374,7 @@ void url::parse(char *arg)
 	int deb = 0, fin = deb;
 
 	//get host
-	while( arg[fin] != '/' && arg[fin] != ':' && arg[i] != 0)
+	while( arg[fin] != '/' && arg[fin] != ':' && arg[fin] != 0)
 	{
 		fin ++;
 	}
@@ -331,77 +405,6 @@ void url::parse(char *arg)
 	 else
 		 file = newString(arg+fin);
 
-}
-/*url 规范化函数，仅针对修饰符和RFC1738编码做了处理
-如果处理正确返回 true, 错误返回false*/
-bool fileNormalize (char *file){
-	int i = 0;
-	while(file[i] != 0 && file[i] != '#')   //删除Fragment(#) 
-	{
-		//删除多余的 //  /./   /../   /.       /..点修饰符
-		if(file[i] == '/'){
-			int j = i+1, k = j;
-			while(file[j] == '.' || file[j] == '/') j++;
-			while(file[j] !=0)
-				{
-					file[k] = file[j];
-					j++, k++;
-				}
-				file[k] = 0;
-				i++;
-		} else if(file[i] == '%'){ //处理RFC1738编码"%20"的情况，转换为实际字符 
-			int v1 = int_of_hexa(file[i+1]);
-			int v2 = int_of_hexa(file[i+1]);
-			if(v1 < 0 || v2 < 0) return false;
-			char c = v1 * 16 + v2;
-			if(isgraph(c)){
-				file[i] = c;
-				int j = i+3;
-				while (file[j] != 0)
-				{
-					file[j-2] = file[j];
-					j++;
-				}
-				file[j-2] = 0;
-			} else if (c == ' ' || c=='/') //如果c是空格或者/则不对其进行转码
-				i+=3;
-			else  //错误url
-				return false;
-		} else {
-			i ++;
-		}
-		
-				
-
-		//	if(file[i+1] == '.' && file[i+2] == '/')
-		//	{
-		//		/*删除多余的/./*/
-		//		int j = i+3;
-		//		while(file[j] != 0)
-		//		{
-		//			file[j-2] == file[j];
-		//			j++;
-		//		}
-		//		file[j-1] = 0;
-		//	}
-		//	
-		//}
-	}
-	   file[i] = 0;
-		return true;
-
-}
-/*将十六进制的字符转换为整形数字
-* 若字符不是十六进制数返回 -1*/
-static int int_of_hexa(char c){
-	if(c >= '0' && c <= '9')
-		return (c - '0');
-	else if(c >= 'A' && c <= 'Z')
-		return(c - 'A' + 10);
-	else if(c >= 'a' && c <= 'z')
-		return(c - 'a' + 10);
-	else
-		return -1;
 }
 
 #ifdef COOKIES

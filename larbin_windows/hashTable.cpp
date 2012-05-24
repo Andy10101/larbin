@@ -1,17 +1,17 @@
-#include "hashTable.h"
-
-#define hashSize 64000000
-#define ssize_t unsigned int
-//构造函数
-hashTable::hashTable(bool create){
-	if(create)
-	{
-		ssize_t total = hashSize/8;
-		table = new char[total];
-		for(ssize_t i=0; i<total; i++)
-			table[i] = 0;
-	}else{
-	int fds = 
-	}
-
-}
+//#include "hashTable.h"
+//
+//#define hashSize 64000000
+//#define ssize_t unsigned int
+////构造函数
+//hashTable::hashTable(bool create){
+//	if(create)
+//	{
+//		ssize_t total = hashSize/8;
+//		table = new char[total];
+//		for(ssize_t i=0; i<total; i++)
+//			table[i] = 0;
+//	}else{
+//	int fds = 
+//	}
+//
+//}
