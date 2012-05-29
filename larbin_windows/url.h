@@ -24,7 +24,7 @@ private:
 	/*判断url中是否包含协议其他非http的协议*/
 	bool isProtocol(char *s);
 	/*私有构造函数*/
-	url(char *u, uint port, char *file);
+	url(char *host, uint port, char *file);
 
 public:
 	//构造函数，输入为上一级url对象的指针和新添加的部分路径

@@ -44,5 +44,8 @@
     <ClInclude Include="text.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="fifo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

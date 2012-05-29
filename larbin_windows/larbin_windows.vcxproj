@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h" />
+    <ClInclude Include="fifo.h" />
     <ClInclude Include="hashTable.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="types.h" />
