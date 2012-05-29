@@ -16,15 +16,32 @@ public:
 
 
 	Fifo(uint size = maxUrlsBySite);
+
 	~Fifo();
-	T* read () { return tab[out];}//返回下一个出堆的元素 内联函数
-	T* tryRead ();//返回下一个出队的元素，首先检查队列是否为空,为空返回NULL
-	T *get ();// 出队，若队列为空调用assert抛出异常，否则出队
-	T* tryGet (); //出对，若队列为空返回null，否则出队
-	void put (T *obj);//入队，向队列添加一个新的元素。若队列已满则扩大队列容量为原来2倍
-	void rePut (T *obj);//入队，仅用于将刚刚出队的元素再添加到队列中
-    int getLength (); //返回队列长度
-	bool isEmpty (){return (in == out);};//内联函数，判断队列是否为空
+
+	//返回下一个出堆的元素 内联函数
+	T* read () { return tab[out];}
+
+	//返回下一个出队的元素，首先检查队列是否为空,为空返回NULL
+	T* tryRead ();
+
+	// 出队，若队列为空调用assert抛出异常，否则出队
+	T *get ();
+
+	//出队，若队列为空返回null，否则出队
+	T* tryGet (); 
+
+	//入队，向队列添加一个新的元素。若队列已满则扩大队列容量为原来2倍	
+	void put (T *obj);
+
+	//入队，仅用于将刚刚出队的元素再添加到队列中原来位置
+	void rePut (T *obj);
+    
+	//返回队列长度
+	int getLength (); 
+
+	//内联函数，判断队列是否为空
+	bool isEmpty (){return (in == out);}
 };
 
 
