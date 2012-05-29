@@ -6,6 +6,8 @@
 #ifndef FIFO_H_
 #define FIFO_H_
 
+#include "assert.h"
+
 template <class T>
 class Fifo{
 public:
@@ -68,7 +70,7 @@ T* Fifo<T>::tryRead(){
 
 template <class T>
 T* Fifo<T>::get(){
-	T *tmp;
+	T *tmp;	
 	assert(in != out);
 	tmp = tab[out];
 	out = (out + 1)%size;

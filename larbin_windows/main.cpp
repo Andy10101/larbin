@@ -1,19 +1,59 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "url.h"
+#include "fifo.h"
 using namespace std;
-
+void test_class_fifo();
 void test_url();
 int main()
 {
-	bool test = false;
-	cout << "function isValid:" << test << endl;
-	test_url();
-
+	
+	//test_url();
+	test_class_fifo();
 	return 0;
 }
 
+void test_class_fifo(){
+	srand(time(0));
+	int a[50];
+	for(int i = 0; i < 50; i++){a[i] = i;}
+	Fifo<int> f;
+	int k = 0;
+	f.put(a);
+	cout << *(f.tryGet()) << endl;
+	// test for put() and tryGet()
+	while(k < 1000)
+	{
+		if(rand()*3/RAND_MAX >1)
+		{
+			int j = rand()*49/RAND_MAX;
+			f.put(a+j);
+			cout << "put" << a[j] << endl;
+		}
+		else
+		{
+			int* tmp = f.tryGet();
+
+			if(tmp)
+				cout << *tmp << endl;
+			else cout << "NULL" << endl;
+
+		}
+	k++;
+	}
+	//test for getLength(), read() and size
+	cout << "length:" << f.getLength() << endl;
+	cout <<"read:" << *(f.read()) << endl;
+	cout << "size:" << f.size << endl;
+	
+
+
+}
+
+
 //urlÀàµÄ²âÊÔº¯Êý
-void test_url()
+void test_class_url()
 {
 	char *u1 = "http://www.google.com/reader/view/stream/";
 	char *u2 = "http://www.google.com/reader/view/stream/user.html";
