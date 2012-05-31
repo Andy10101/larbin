@@ -1,3 +1,6 @@
 # git ignore file
+.gitignore
 Debug/*
-larbin_windows/Debug/*
+hashTable
+bin/*
+obj/*
