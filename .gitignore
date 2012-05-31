@@ -1,5 +1,5 @@
 # git ignore file
-.gitignore
+.gitgnore
 Debug/*
 hashTable
 bin/*
