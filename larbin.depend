@@ -1,11 +1,13 @@
 # depslib dependency file v1.0
-1338460078 source:d:\larbin\main.cpp
+1338534828 source:d:\larbin\main.cpp
 	<iostream>
-	<cstdDEBUGlib>
+	<cstdlib>
 	<ctime>
 	"url.h"
 	"fifo.h"
 	"hashTable.h"
+	"hashDup.h"
+	"types.h"
 
 1338460078 d:\larbin\url.h
 	<stdlib.h>
@@ -41,9 +43,18 @@
 
 1338460078 d:\larbin\debug.h
 
-1338460078 source:d:\larbin\hashtable.cpp
+1338460714 source:d:\larbin\hashtable.cpp
 	<fstream>
 	<iostream>
 	"hashTable.h"
+	"types.h"
+
+1338534597 source:d:\larbin\hashdup.cpp
+	<iostream>
+	<fstream>
+	"hashDup.h"
+	"types.h"
+
+1338534478 d:\larbin\hashdup.h
 	"types.h"
 

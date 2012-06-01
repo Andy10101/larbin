@@ -1,0 +1,20 @@
+//Larbin
+
+/* class hashDup
+ * This class id in charge of making sure we don't crawl twice the same page
+ */
+
+ #ifndef HASHDUP_H_
+ #define HASHDUP_H_
+
+ class hashDup{
+ private:
+    ssize_t size;
+    char *table;
+    char *file;
+public:
+//    constructor
+    hashDup(ssize_t size, char *init, bool scratch);
+    
+ };
+ #endif

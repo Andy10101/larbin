@@ -32,12 +32,21 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Vector.h" />
 		<Unit filename="debug.h" />
+		<Unit filename="fetch\checker.cpp" />
+		<Unit filename="fetch\checker.h" />
 		<Unit filename="fifo.h" />
+		<Unit filename="file.cpp" />
+		<Unit filename="file.h" />
+		<Unit filename="global.h" />
+		<Unit filename="hashDup.cpp" />
+		<Unit filename="hashDup.h" />
 		<Unit filename="hashTable.cpp" />
 		<Unit filename="hashTable.h" />
 		<Unit filename="larbin.cbp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="options.h" />
 		<Unit filename="resource.h" />
 		<Unit filename="text.cpp" />
 		<Unit filename="text.h" />

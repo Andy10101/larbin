@@ -15,6 +15,7 @@ hashTable::hashTable(bool create){
 			table[i] = 1;
 	}else{
 		std::ifstream fin;
+
 		fin.open("hashtable.bak",std::ios::in|std::ios::binary);
 		if(fin.is_open())
 		{
@@ -57,7 +58,7 @@ bool hashTable::test(url *U){
 	unsigned int pos = code /8;
 	unsigned int bits = 1 <<(code%8);
 	return table[pos]&bits;
-}  
+}
 
 //将url在hashTable中标记为已经见过
 void hashTable::set(url *U){
@@ -66,7 +67,7 @@ void hashTable::set(url *U){
 	unsigned int bits = 1 <<(code%8);
 	table[pos] |= bits;
 
-}  
+}
 //判断url有没有被加过,已经见过返回false，没有见过将其标记为已经见过
 bool hashTable::testSet(url *U){
 	unsigned int code = U->hashCode();
@@ -77,4 +78,3 @@ bool hashTable::testSet(url *U){
 	return !res;
 
 }
-	 

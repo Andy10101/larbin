@@ -1,27 +1,41 @@
 #include <iostream>
-#include <cstdDEBUGlib>
+#include <cstdlib>
 #include <ctime>
 #include "url.h"
 #include "fifo.h"
 #include "hashTable.h"
+#include "hashDup.h"
+#include "types.h"
 using namespace std;
 void test_class_fifo();
 void test_url();
 void test_class_hashTable();
+void test_class_hashDup();
 int main()
 {
-	test_class_hashTable();
+    test_class_hashDup();
+//	test_class_hashTable();
 	//test_url();
 	//test_class_fifo();
 	return 0;
 }
 
+void test_class_hashDup(){
+    hashDup dup(hashSize, "hello", true);
+    bool status = dup.testSet("hello");
+    cout << "the docs: hello is already added?" << !status << endl;
+    status = dup.testSet("hello");
+    cout << "the docs: hello is already added?" << !status << endl;
+
+    dup.save();
+}
+
 void test_class_hashTable(){
-	//¥¥Ω®hashTable
+	//ÂàõÂª∫hashTable
 	hashTable table(true);
 	table.save();
 
-	//ππ‘Ïurl
+	//ÊûÑÈÄ†url
 	char *u1 = "http://www.google.com/reader/view/stream/";
 	char *u2 = "http://www.google.com/reader/view/stream/user.html";
 	char *u1_2 = "user.html";
@@ -34,6 +48,7 @@ void test_class_hashTable(){
 	bool state = table.test(&father_URL);
 	cout << "url:"<< father_URL.getUrl() << "is added" <<" in hashTable:" <<state << endl;
 	table.set(&father_URL);
+
 
 	state = table.testSet(&father_URL);
 	cout << state;
@@ -49,13 +64,13 @@ void test_class_hashTable(){
 
 
 void test_class_fifo(){
-	srand(time(0));  //…˙≥…ÀÊª˙÷–º∂
-	int a[50];  //∂®“Â ˝◊È
-	for(int i = 0; i < 50; i++){a[i] = i;}  //≥ı ºªØ
+	srand(time(0));  //ÁîüÊàêÈöèÊú∫‰∏≠Á∫ß
+	int a[50];  //ÂÆö‰πâÊï∞ÁªÑ
+	for(int i = 0; i < 50; i++){a[i] = i;}  //ÂàùÂßãÂåñ
 	Fifo<int> f;
 	int k = 0;
-	f.put(a);  //»Î∂”
-	cout << *(f.tryGet()) << endl;//≥ˆ∂”
+	f.put(a);  //ÂÖ•Èòü
+	cout << *(f.tryGet()) << endl;//Âá∫Èòü
 	// test for put() and tryGet()
 	while(k < 1000)
 	{
@@ -83,7 +98,7 @@ void test_class_fifo(){
 }
 
 
-//url¿‡µƒ≤‚ ‘∫Ø ˝
+//urlÁ±ªÁöÑÊµãËØïÂáΩÊï∞
 void test_class_url()
 {
 	char *u1 = "http://www.google.com/reader/view/stream/";
@@ -92,19 +107,19 @@ void test_class_url()
 	int8_t depth1 = 3;
 	int8_t depth2 = 4;
 
-	//≤‚ ‘ππ‘Ï∫Ø ˝
+	//ÊµãËØïÊûÑÈÄ†ÂáΩÊï∞
 	url father_URL(u1,depth1);
 	url child_URL(u2,depth2);
 	url child_URL2(u1_2,depth2,&father_URL);
 
-	//≤‚ ‘isValid∫Ø ˝
+	//ÊµãËØïisValidÂáΩÊï∞
 	bool flag = father_URL.isValid();
 	cout << "function isValid of father_URL:" << flag*1 << endl;
 	cout << "function isValid of child_URL:" << child_URL.isValid() << endl;
 	cout << "function isValid of child_URL2:" << child_URL2.isValid() << endl;
 	cout << endl;
 
-	//≤‚ ‘print
+	//ÊµãËØïprint
 	cout << "function print:\n";
 	father_URL.print();
 	child_URL2.print() ;
