@@ -1,7 +1,0 @@
-# git ignore file
-.gitignore
-Debug/*
-hashTable
-bin/*
-obj/*
-*.save
