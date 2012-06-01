@@ -4,3 +4,4 @@ Debug/*
 hashTable
 bin/*
 obj/*
+*.save
